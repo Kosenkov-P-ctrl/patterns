@@ -3,14 +3,17 @@ package org.patterns.singlton;
 public class ChocolateBoiler {
     private boolean empty;
     private boolean boiled;
-    private static ChocolateBoiler chocolateBoiler;
+    private volatile static ChocolateBoiler chocolateBoiler;
     private ChocolateBoiler(){
         this.empty = true;
         this.boiled = false;
     }
-    public static ChocolateBoiler getInstance(){
-        if(chocolateBoiler == null){
-            chocolateBoiler = new ChocolateBoiler();
+    public static  ChocolateBoiler getInstance(){
+        if(chocolateBoiler == null) {
+            synchronized (ChocolateBoiler.class) {
+                if(chocolateBoiler == null)
+                    chocolateBoiler = new ChocolateBoiler();
+            }
         }
         return chocolateBoiler;
     }

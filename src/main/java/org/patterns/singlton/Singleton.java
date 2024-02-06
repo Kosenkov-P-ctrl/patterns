@@ -1,13 +1,16 @@
 package org.patterns.singlton;
 
 public class Singleton {
-    private static Singleton singleton;
+    private volatile static Singleton singleton;
 
     private Singleton(){}
 
     public static Singleton getInstance(){
         if(singleton == null){
-            singleton = new Singleton();
+            synchronized (Singleton.class){
+                if(singleton == null)
+                    singleton = new Singleton();
+            }
         }
         return singleton;
     }
